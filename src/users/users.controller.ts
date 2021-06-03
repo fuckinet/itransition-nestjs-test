@@ -1,9 +1,9 @@
 import { Body, Controller, Patch, Param, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { EditUserDto } from './dto/edit-user.dto';
 import { userIdDto } from './dto/user-id.dto';
-import { RolesGuard } from '../auth/roles.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorators';
 
 @Controller('users')
