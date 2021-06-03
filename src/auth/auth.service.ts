@@ -31,7 +31,7 @@ export class AuthService {
     const user = await this.usersService.findOneByEmail(loginUserDto.login);
     if (!user) {
       throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'Worng login or password!' },
+        { status: HttpStatus.BAD_REQUEST, error: 'Wrong login or password!' },
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -41,7 +41,7 @@ export class AuthService {
     );
     if (!isValidPassword) {
       throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'Worng login or password!' },
+        { status: HttpStatus.BAD_REQUEST, error: 'Wrong login or password!' },
         HttpStatus.BAD_REQUEST,
       );
     }
