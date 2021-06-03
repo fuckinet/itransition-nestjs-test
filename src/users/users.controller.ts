@@ -15,6 +15,10 @@ export class UsersController {
   @Roles('admin')
   async editUser(@Param() params: userIdDto, @Body() editUserDto: EditUserDto) {
     const { id } = params;
-    await this.usersService.editUser(id, editUserDto);
+    const user = await this.usersService.editUser(id, editUserDto);
+    return {
+      id: user.id,
+      ...editUserDto,
+    };
   }
 }
