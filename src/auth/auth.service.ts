@@ -6,12 +6,14 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../entities/user.entity';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
@@ -26,11 +28,7 @@ export class AuthService {
   }
 
   async loginUser(loginUserDto: LoginUserDto): Promise<string> {
-    const user = await this.usersRepository.findOne({
-      where: {
-        email: loginUserDto.login,
-      },
-    });
+    const user = await this.usersService.findOneByEmail(loginUserDto.login);
     if (!user) {
       throw new HttpException(
         { status: HttpStatus.BAD_REQUEST, error: 'Worng login or password!' },
@@ -48,7 +46,7 @@ export class AuthService {
       );
     }
     const payload = {
-      id: user.id,
+      userId: user.id,
       role: user.role,
     };
     return this.jwtService.sign(payload);

@@ -34,4 +34,12 @@ export class UsersService {
     await this.usersRepository.save(user);
     return user;
   }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({
+      where: {
+        email,
+      },
+    });
+  }
 }
