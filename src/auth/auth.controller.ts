@@ -1,4 +1,12 @@
-import { Body, Controller, Post, HttpCode, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  UseGuards,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -18,6 +26,12 @@ export class AuthController {
   @Post('login')
   async loginUser(@Body() loginUserDto: LoginUserDto) {
     const jwt = await this.authService.loginUser(loginUserDto);
+    if (!jwt) {
+      throw new HttpException(
+        { status: HttpStatus.BAD_REQUEST, error: 'Wrong login or password!' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return { token: jwt };
   }
 }

@@ -27,23 +27,17 @@ export class AuthService {
     return await this.usersRepository.save(user);
   }
 
-  async loginUser(loginUserDto: LoginUserDto): Promise<string> {
+  async loginUser(loginUserDto: LoginUserDto): Promise<string | boolean> {
     const user = await this.usersService.findOneByEmail(loginUserDto.login);
     if (!user) {
-      throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'Wrong login or password!' },
-        HttpStatus.BAD_REQUEST,
-      );
+      return false;
     }
     const isValidPassword = await bcrypt.compare(
       loginUserDto.password,
       user.password,
     );
     if (!isValidPassword) {
-      throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'Wrong login or password!' },
-        HttpStatus.BAD_REQUEST,
-      );
+      return false;
     }
     const payload = {
       userId: user.id,
