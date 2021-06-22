@@ -18,6 +18,9 @@ $ export JWT_SECRET='secret-word'
 
 # edit mysql db config
 $ nano ormconfig.json
+
+# edit mysql db config for tests
+$ nano test/config/env.test
 ```
 
 ## Running the app
@@ -34,6 +37,19 @@ $ npm run start:prod
 
 # start migration
 $ npm run typeorm migration:run
+```
+
+## test the app
+
+```bash
+# unit
+$ npm run test
+
+# e2e
+$ npm run e2e
+
+# coverage
+$ npm run coverage
 ```
 
 ## Routes:
