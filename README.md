@@ -39,17 +39,17 @@ $ npm run start:prod
 $ npm run typeorm migration:run
 ```
 
-## test the app
+## Test
 
 ```bash
 # unit
 $ npm run test
 
 # e2e
-$ npm run e2e
+$ npm run test:e2e
 
 # coverage
-$ npm run coverage
+$ npm run test:cov
 ```
 
 ## Routes:
