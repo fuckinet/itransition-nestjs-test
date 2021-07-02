@@ -28,9 +28,11 @@
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/typeorm": "^7.1.5",
+    "@nestjs/websockets": "^7.6.18",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "eetase": "^4.0.0",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -38,6 +40,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
+    "scc-broker-client": "^8.0.0",
+    "socketcluster-server": "^16.0.0",
     "typeorm": "^0.2.33"
   },
   "devDependencies": {
