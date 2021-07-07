@@ -137,26 +137,45 @@ export class ScAdapter implements WebSocketAdapter {
     handlers: MessageMappingProperties[],
     process: (data: any) => Observable<any>,
   ) {
+    let cid = null;
     fromEvent(client, 'message')
       .pipe(
-        mergeMap((data) => this.bindMessageHandler(data, handlers, process)),
+        mergeMap((data) => {
+          const message = this.bindMessageParser(data);
+          if (message.cid) {
+            cid = message.cid;
+          }
+          return this.bindMessageHandler(message, handlers, process);
+        }),
         filter((result) => result),
       )
       .subscribe((response: MessageEvent) => {
-        return client.send(JSON.stringify(response));
+        // rpc response
+        if (cid) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete response.event;
+          client.send(JSON.stringify(Object.assign(response, { rid: cid })));
+        } else {
+          client.send(JSON.stringify(response));
+        }
       });
   }
 
+  bindMessageParser(buffer) {
+    try {
+      return JSON.parse(buffer.data);
+    } catch (e) {
+      return EMPTY;
+    }
+  }
+
   bindMessageHandler(
-    buffer,
+    message,
     handlers: MessageMappingProperties[],
     process: (data: any) => Observable<any>,
   ): Observable<any> {
-    let message;
-    // for ping-pong
-    try {
-      message = JSON.parse(buffer.data);
-    } catch (e) {
+    if (!message) {
       return EMPTY;
     }
     const messageHandler = handlers.find(
