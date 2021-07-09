@@ -4,14 +4,14 @@ import {
   WebSocketServer,
   WsResponse,
 } from '@nestjs/websockets';
-import { Server } from 'ws';
+import { AGServer } from 'socketcluster-server';
 import { UsersService } from './users.service';
 
 @WebSocketGateway(8000)
 export class UsersGateway {
   constructor(private readonly usersService: UsersService) {}
   @WebSocketServer()
-  server: Server;
+  server: AGServer;
 
   @SubscribeMessage('getUser')
   async onEvent(client: any, id: any): Promise<WsResponse<unknown>> {
